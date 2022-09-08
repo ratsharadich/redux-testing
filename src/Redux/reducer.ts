@@ -1,5 +1,5 @@
 import { ACTIONS } from "./actions";
-import { ActionType, ToDoType } from "./interfaces";
+import { ActionType } from "./interfaces";
 
 const initialState = {
   todos: [
@@ -13,39 +13,21 @@ const initialState = {
   },
 };
 
-/**
- * Генерим id для новодобавленной тудушки проходя весь массив,
- * найдя самый большой id и прибавив к нему единицу
- * Делаем мы это для того, чтобы не зависеть от индекса массива
- * и при изменении порядка следования тудушек у нас остались прежние id
- */
-function nextTodoId(todos: ToDoType[]) {
-  const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1);
-  return maxId + 1;
-}
-
 // Use the initialState as a default value
 export default function appReducer(state = initialState, action: ActionType) {
   // The reducer normally looks at the action type field to decide what happens
   switch (action.type) {
-    // Do something here based on the different types of actions
-    case ACTIONS["todos/todoAdded"]: {
-      // We need to return a new state object
+    case ACTIONS["filters/statusFilterChanged"]: {
       return {
-        // that has all the existing state data
+        // Copy the whole state
         ...state,
-        // but has a new array for the `todos` field
-        todos: [
-          // with all of the old todos
-          ...state.todos,
-          // and the new todo object
-          {
-            // Use an auto-incrementing numeric ID for this example
-            id: nextTodoId(state.todos),
-            text: action.payload,
-            completed: false,
-          },
-        ],
+        // Overwrite the filters value
+        filters: {
+          // copy the other filter fields
+          ...state.filters,
+          // And replace the status field with the new value
+          status: action.payload,
+        },
       };
     }
     default:
