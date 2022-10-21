@@ -1,9 +1,9 @@
 export enum ChangeType {
-  "added",
-  "remove",
+  ADDED = "ADDED",
+  REMOVED = "REMOVED",
 }
 
 export enum ACTIONS {
-  "filters/statusFilterChanged",
-  "filters/colorFilterChanged",
+  STATUS = "filters/statusFilterChanged",
+  COLOR = "filters/colorFilterChanged",
 }

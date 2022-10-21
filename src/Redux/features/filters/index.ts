@@ -1,43 +1,50 @@
 import { ACTIONS, ChangeType } from "./constants";
-import { ActionType } from "./interfaces";
-
-export const StatusFilters = {
-  All: "all",
-  Active: "active",
-  Completed: "completed",
-};
+import { ActionType, StatusFilters } from "./interfaces";
 
 const initialState = {
-  status: StatusFilters.All,
+  status: StatusFilters.ALL,
   colors: [] as string[],
 };
 
-export function filtersReducer(state = initialState, action: ActionType) {
+export function filtersReducer(
+  state = initialState,
+  action: ActionType
+): typeof initialState {
   switch (action.type) {
-    case ACTIONS["filters/statusFilterChanged"]: {
-      return {
-        // Again, one less level of nesting to copy
-        ...state,
-        status: action.payload,
-      };
+    case ACTIONS.STATUS: {
+      const { status } = action.payload;
+
+      if (status) {
+        return {
+          // Again, one less level of nesting to copy
+          ...state,
+          status,
+        };
+      }
+
+      return initialState;
     }
-    case ACTIONS["filters/colorFilterChanged"]: {
+    case ACTIONS.COLOR: {
       let { color, changeType } = action.payload;
       const { colors } = state;
 
       switch (changeType) {
-        case ChangeType.added: {
-          if (colors.includes(color)) {
-            // This color already is set as a filter. Don't change the state.
-            return state;
+        case ChangeType.ADDED: {
+          if (color) {
+            if (colors.includes(color)) {
+              // This color already is set as a filter. Don't change the state.
+              return state;
+            }
+
+            return {
+              ...state,
+              colors: state.colors.concat(color),
+            };
           }
 
-          return {
-            ...state,
-            colors: state.colors.concat(color),
-          };
+          return initialState;
         }
-        case ChangeType.remove: {
+        case ChangeType.REMOVED: {
           return {
             ...state,
             colors: state.colors.filter(
