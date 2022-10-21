@@ -1,4 +1,5 @@
-import { ACTIONS, ActionType, ToDoType } from "src/Redux";
+import { ACTIONS } from "./constants";
+import { ActionType, ToDoType } from "./interfaces";
 
 const initialState = [
   { id: 0, text: "Learn React", completed: true },
@@ -17,7 +18,7 @@ function nextTodoId(todos: ToDoType[]) {
   return maxId + 1;
 }
 
-export default function todosReducer(state = initialState, action: ActionType) {
+export function todosReducer(state = initialState, action: ActionType) {
   switch (action.type) {
     case ACTIONS["todos/todoAdded"]: {
       // Can return just the new todos array - no extra object around it

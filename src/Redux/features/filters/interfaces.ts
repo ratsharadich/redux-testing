@@ -1,5 +1,4 @@
-import { ACTIONS } from "src/Redux";
-import { ChangeType } from "./constants";
+import { ACTIONS, ChangeType } from "./constants";
 
 export type ActionType = {
   type: ACTIONS;

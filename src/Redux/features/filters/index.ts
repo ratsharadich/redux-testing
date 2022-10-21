@@ -1,5 +1,4 @@
-import { ACTIONS } from "src/Redux";
-import { ChangeType } from "./constants";
+import { ACTIONS, ChangeType } from "./constants";
 import { ActionType } from "./interfaces";
 
 export const StatusFilters = {
@@ -13,10 +12,7 @@ const initialState = {
   colors: [] as string[],
 };
 
-export default function filtersReducer(
-  state = initialState,
-  action: ActionType
-) {
+export function filtersReducer(state = initialState, action: ActionType) {
   switch (action.type) {
     case ACTIONS["filters/statusFilterChanged"]: {
       return {

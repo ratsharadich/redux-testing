@@ -1,4 +1,4 @@
-import { ACTIONS } from "./actions";
+import { ACTIONS } from "./constants";
 
 export type ActionType = {
   /** тип (id) action/event */
