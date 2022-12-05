@@ -28,14 +28,10 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": "./",
     "paths": {
-      "src/*": ["src/*"],
+      "src/*": ["src/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -51,8 +47,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src", "src/store/.ts"],
   "exclude": ["node_modules"]
 }

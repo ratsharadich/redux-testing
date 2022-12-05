@@ -1,4 +1,4 @@
-import { ChangeType } from "./../filters/constants";
+import { ChangeType } from "../filters/constants";
 import { filtersReducer } from "../filters/index";
 import { ACTIONS } from "../filters/constants";
 import { StatusFilters } from "../filters/interfaces";

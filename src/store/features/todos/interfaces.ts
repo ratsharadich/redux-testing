@@ -1,12 +1,6 @@
-import { ACTIONS } from "./constants";
-
-export type ActionType = {
-  /** тип (id) action/event */
-  type: ACTIONS;
-
-  /** передаваемые в action данные */
-  payload: any;
-};
+export type AddTodoActionType = { payload: { text: string }};
+export type ToggleTodoActionType = { payload: { id: number }};
+export type RemoveTodoActionType = ToggleTodoActionType;
 
 export type ToDoType = {
   /** id тудушки */
