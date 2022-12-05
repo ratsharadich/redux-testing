@@ -1,14 +1,14 @@
-import { ActionReducerMapBuilder, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchTodosPartly } from "src/shared";
-import { STATUSES, THUNK_NAMES, TODOS_PART } from "./constants";
-import { TodoStateType, ToDoType } from "./interfaces";
+import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchTodosPartly } from 'src/shared';
+import { STATUSES, THUNK_NAMES, TODOS_PART } from './constants';
+import { TodoStateType, ToDoType } from './interfaces';
 
 /** Запрашиваем изначальные тудушки */
 export const fetchTodos = createAsyncThunk<
   ToDoType[],
   void,
   {
-    rejectValue: string;
+    rejectValue: string | STATUSES;
   }
 >(THUNK_NAMES.FETCH_TODO, async (_, { rejectWithValue }) => {
   try {
@@ -23,18 +23,24 @@ export const fetchTodos = createAsyncThunk<
   }
 });
 
-export const extraReducers = (builder: ActionReducerMapBuilder<TodoStateType>) => {
-    builder.addCase(fetchTodos.pending, (state) => {
-      state.status = STATUSES.LOADING;
-      state.error = null;
-    });
-    builder.addCase(fetchTodos.fulfilled, (state, { payload }) => {
-      state.status = STATUSES.RESOLVED;
-      state.todos = payload;
-      state.error = null;
-    });
-    builder.addCase(fetchTodos.rejected, (state, action) => {
-      state.status = STATUSES.REJECTED;
-      state.error = action.payload || null;
-    });
-  }
+const fetchTodosReducer = (builder: ActionReducerMapBuilder<TodoStateType>) => {
+  builder.addCase(fetchTodos.pending, (state) => {
+    state.status = STATUSES.LOADING;
+    state.error = null;
+  });
+  builder.addCase(fetchTodos.fulfilled, (state, { payload }) => {
+    state.status = STATUSES.RESOLVED;
+    state.todos = payload;
+    state.error = null;
+  });
+  builder.addCase(fetchTodos.rejected, (state, action) => {
+    state.status = STATUSES.REJECTED;
+    state.error = action.payload || null;
+  });
+};
+
+export const extraReducers = (
+  builder: ActionReducerMapBuilder<TodoStateType>,
+) => {
+  fetchTodosReducer(builder);
+};

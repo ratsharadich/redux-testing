@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { STATUSES } from './constants';
 
 export interface ToDoType {
   /** id тудушки */
@@ -23,8 +24,8 @@ export interface TodoStateType {
   todos: ToDoType[];
 
   /** Статус изначального запроса тудушек */
-  status: null | string;
+  status: null | string | STATUSES;
 
   /** Возможнная ошибка при изначальном запросе тудушек */
-  error: null | string;
+  error: null | string | STATUSES;
 }
