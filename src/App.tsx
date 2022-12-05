@@ -1,28 +1,30 @@
 import './App.css'
-import { useDispatch, useSelector } from 'react-redux'
-import { addTodo, removeTodo } from './store/features'
-import { ChangeEvent, useState } from 'react'
-import { RootState } from './store'
-import { ToDoType } from './store/features/todos/interfaces'
+import { addTodo, fetchTodos, removeTodo } from './store/features'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from './store'
 
 function App() {
   const [text, setText] = useState('')
 
-  const dispatch = useDispatch()
-  const todos: ToDoType[] = useSelector(({ todos }: RootState) => todos.todos)
+  const dispatch = useAppDispatch()
+  const todos = useAppSelector(({ todos }) => todos.todos)
 
   const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value)
   }
 
   const handleAddTodo = () => {
-    dispatch(addTodo({ text }))
+    dispatch(addTodo({ title: text }))
     setText('')
   }
 
   const handleRemoveTodo = (id: number) => {
     dispatch(removeTodo({ id }))
   }
+
+  useEffect(() => {
+    dispatch(fetchTodos())
+  }, [])
 
   return (
     <main
@@ -31,15 +33,16 @@ function App() {
         flexDirection: 'column',
         height: '100vh',
         width: '100vw',
-        justifyContent: 'center',
+        justifyContent: 'start',
         alignItems: 'center',
         gap: '1rem',
+        paddingTop: '1rem',
       }}
     >
       <input value={text} onChange={handleChangeText}></input>
       <button onClick={handleAddTodo}>Добавить todo</button>
 
-      {todos.map(({ id, text, color }) => (
+      {todos.map(({ id, title: text, color }) => (
         <div style={{ display: 'flex', gap: '1rem', backgroundColor: color }}>
           <span>{text}</span>
           <button
